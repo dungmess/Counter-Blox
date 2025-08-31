@@ -116,7 +116,7 @@ UIS.InputBegan:Connect(function(input, gpe)
 	if gpe then return end
 
 	-- F để bật/tắt Aimbot
-	if input.KeyCode == Enum.KeyCode.F then
+	if input.KeyCode == Enum.KeyCode.T then
 		lockEnabled = not lockEnabled
 		if lockEnabled then
 			statusLabel.Text = "Camera Lock: ON"
@@ -128,7 +128,7 @@ UIS.InputBegan:Connect(function(input, gpe)
 	end
 
 	-- Z để bật/tắt Highlight
-	if input.KeyCode == Enum.KeyCode.Z then
+	if input.KeyCode == Enum.KeyCode.B then
 		highlightEnabled = not highlightEnabled
 		for _, h in pairs(highlightFolder:GetChildren()) do
 			h.Enabled = highlightEnabled
