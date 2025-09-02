@@ -59,7 +59,6 @@ end)
 -------------------
 local lockEnabled = false
 
--- UI trạng thái aimbot
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
 
@@ -113,11 +112,8 @@ local nameTagFolder = Instance.new("Folder")
 nameTagFolder.Name = "NameTags"
 nameTagFolder.Parent = LocalPlayer:WaitForChild("PlayerGui")
 
--- Tạo name tag cho player
 local function addNameTag(player)
-	if nameTagFolder:FindFirstChild(player.Name) then
-		nameTagFolder[player.Name]:Destroy()
-	end
+	
 
 	local textLabel = Instance.new("TextLabel")
 	textLabel.Name = player.Name
@@ -132,9 +128,8 @@ local function addNameTag(player)
 	textLabel.Parent = nameTagFolder
 end
 
--- Setup player khi vào
 local function setupPlayer(player)
-	if player == LocalPlayer then return end
+	if player == game.Players.LocalPlayer then return end
 	player.CharacterAdded:Connect(function(char)
 		highlightCharacter(char)
 		addNameTag(player)
@@ -145,7 +140,6 @@ local function setupPlayer(player)
 	end
 end
 
--- Update vị trí name tag mỗi frame
 RunService.RenderStepped:Connect(function()
 	for _, player in pairs(Players:GetPlayers()) do
 		if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Head") then
@@ -158,7 +152,6 @@ RunService.RenderStepped:Connect(function()
 					textLabel.Visible = true
 					textLabel.Position = UDim2.new(0, pos.X, 0, pos.Y)
 
-					-- scale theo khoảng cách
 					local distance = (Camera.CFrame.Position - head.Position).Magnitude
 					local scale = math.clamp(distance / 30, 0.8, 3)
 					textLabel.TextSize = 20 * scale
