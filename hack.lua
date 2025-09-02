@@ -106,6 +106,70 @@ RunService.RenderStepped:Connect(function()
 	end
 end)
 
+------------------------
+-- Name Tag System --
+------------------------
+local nameTagFolder = Instance.new("Folder")
+nameTagFolder.Name = "NameTags"
+nameTagFolder.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+-- Tạo name tag cho player
+local function addNameTag(player)
+	if nameTagFolder:FindFirstChild(player.Name) then
+		nameTagFolder[player.Name]:Destroy()
+	end
+
+	local textLabel = Instance.new("TextLabel")
+	textLabel.Name = player.Name
+	textLabel.Size = UDim2.new(0, 200, 0, 40)
+	textLabel.BackgroundTransparency = 1
+	textLabel.Text = player.Name
+	textLabel.Font = Enum.Font.FredokaOne
+	textLabel.TextColor3 = Color3.fromRGB(255,255,255)
+	textLabel.TextStrokeTransparency = 0.3
+	textLabel.TextScaled = true
+	textLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+	textLabel.Parent = nameTagFolder
+end
+
+-- Setup player khi vào
+local function setupPlayer(player)
+	if player == LocalPlayer then return end
+	player.CharacterAdded:Connect(function(char)
+		highlightCharacter(char)
+		addNameTag(player)
+	end)
+	if player.Character then
+		highlightCharacter(player.Character)
+		addNameTag(player)
+	end
+end
+
+-- Update vị trí name tag mỗi frame
+RunService.RenderStepped:Connect(function()
+	for _, player in pairs(Players:GetPlayers()) do
+		if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("Head") then
+			local head = player.Character.Head
+			local textLabel = nameTagFolder:FindFirstChild(player.Name)
+
+			if textLabel then
+				local pos, onScreen = Camera:WorldToViewportPoint(head.Position + Vector3.new(0, 2.5, 0))
+				if onScreen then
+					textLabel.Visible = true
+					textLabel.Position = UDim2.new(0, pos.X, 0, pos.Y)
+
+					-- scale theo khoảng cách
+					local distance = (Camera.CFrame.Position - head.Position).Magnitude
+					local scale = math.clamp(distance / 30, 0.8, 3)
+					textLabel.TextSize = 20 * scale
+				else
+					textLabel.Visible = false
+				end
+			end
+		end
+	end
+end)
+
 ----------------------
 -- Toggle Key Binds --
 ----------------------
