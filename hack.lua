@@ -1,4 +1,3 @@
--- LocalScript (StarterPlayerScripts)
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -75,7 +74,6 @@ statusLabel.TextSize = 26
 statusLabel.Text = "Camera Lock: OFF"
 statusLabel.Parent = screenGui
 
--- Hàm tìm player gần nhất (trừ cùng team)
 local function getClosestPlayer()
 	local closestDist = math.huge
 	local closestPlayer = nil
@@ -98,7 +96,6 @@ local function getClosestPlayer()
 	return closestPlayer
 end
 
--- Aimbot loop
 RunService.RenderStepped:Connect(function()
 	if lockEnabled then
 		local target = getClosestPlayer()
@@ -115,7 +112,6 @@ end)
 UIS.InputBegan:Connect(function(input, gpe)
 	if gpe then return end
 
-	-- F để bật/tắt Aimbot
 	if input.KeyCode == Enum.KeyCode.T then
 		lockEnabled = not lockEnabled
 		if lockEnabled then
@@ -127,7 +123,6 @@ UIS.InputBegan:Connect(function(input, gpe)
 		end
 	end
 
-	-- Z để bật/tắt Highlight
 	if input.KeyCode == Enum.KeyCode.B then
 		highlightEnabled = not highlightEnabled
 		for _, h in pairs(highlightFolder:GetChildren()) do
