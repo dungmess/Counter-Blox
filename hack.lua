@@ -11,7 +11,7 @@ local Camera = workspace.CurrentCamera
 ----------------------
 local highlightFolder = Instance.new("Folder")
 highlightFolder.Name = "PlayerHighlights"
-highlightFolder.Parent = LocalPlayer:WaitForChild("PlayerGui")
+highlightFolder.Parent = game:GetService("CoreGui")
 
 local highlightEnabled = true
 
@@ -60,7 +60,7 @@ end)
 local lockEnabled = false
 
 local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+screenGui.Parent = game:GetService("CoreGui")
 
 local statusLabel = Instance.new("TextLabel")
 statusLabel.Size = UDim2.new(0, 200, 0, 50)
@@ -98,8 +98,8 @@ end
 RunService.RenderStepped:Connect(function()
 	if lockEnabled then
 		local target = getClosestPlayer()
-		if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
-			local hrp = target.Character.HumanoidRootPart
+		if target and target.Character and target.Character:FindFirstChild("Head") then
+			local hrp = target.Character.Head
 			Camera.CFrame = CFrame.new(Camera.CFrame.Position, hrp.Position)
 		end
 	end
@@ -110,7 +110,7 @@ end)
 ------------------------
 local nameTagFolder = Instance.new("Folder")
 nameTagFolder.Name = "NameTags"
-nameTagFolder.Parent = LocalPlayer:WaitForChild("PlayerGui")
+nameTagFolder.Parent = game:GetService("CoreGui")
 
 local function addNameTag(player)
 	
